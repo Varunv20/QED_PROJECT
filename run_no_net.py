@@ -142,7 +142,7 @@ def train_l_net(net, x1c, x2c, yc):
 
 
 
-def training_loop(p_net, map1, cars, r_h, r_v,  previous_loss):
+def training_loop(p_net, map1, cars, r_h, r_v):
     i = 100
     finished = False
     loss_training_x1 = []
@@ -165,7 +165,7 @@ def training_loop(p_net, map1, cars, r_h, r_v,  previous_loss):
             output = p_net.forward(m, x)
             if i %5 == 0:
                 print("sample output: " + str(output))
-            d = calculate_loss(cars, r_h, r_v, i) * previous_loss
+            d = calculate_loss(cars, r_h, r_v, i)
             loss = torch.tensor([[d]]).to(torch.device('cuda:0' if torch.cuda.is_available() else 'cpu'))
             loss = -1*torch.abs(loss).pow(0.5) + output
             loss = p_net.criterion(output, loss)
@@ -241,9 +241,9 @@ def run(training_loops, num_cars, num_roads):
         i += 1
         cars = create_cars(colors_used, road_locations_vertical, road_locations_horizontal, destinations)
 
-        p_net,  loss  = training_loop(p_net, map1, cars, road_locations_horizontal, road_locations_vertical, avg_loss)
+        p_net,  loss  = training_loop(p_net, map1, cars, road_locations_horizontal, road_locations_vertical)
         loss_array.append(loss)
-        avg_loss = loss/(sum(loss_array)/len(loss_array))
+
         print("Loop: " + str(i))
         if i%1 == 0 and not i ==0:
             x = np.array(range(len(loss_array)))

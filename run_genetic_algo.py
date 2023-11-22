@@ -219,7 +219,7 @@ model = CNN(1)
 torch_ga = torchga.TorchGA(model=model,
                            num_solutions=20)
 num_generations = 100 # Number of generations.
-num_parents_mating = 50 # Number of solutions to be selected as parents in the mating pool.
+num_parents_mating = 10 # Number of solutions to be selected as parents in the mating pool.
 initial_population = torch_ga.population_weights # Initial population of network weights
 print("c0")
 

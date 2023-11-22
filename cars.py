@@ -6,8 +6,8 @@ class car:
         self.rotation = 0
         self.velocity = 0
         self.acceleration = 0
-        self.max_velocity = 40
-        self.max_acceleration = 10
+        self.max_velocity = 20
+        self.max_acceleration = 5
         self.crashed = False
         self.success = False
         self.x = x  
@@ -55,10 +55,10 @@ class car:
     def move(self, amount):
         if self.crashed:
             return
-        adj_amount = math.sin(3.14 * 1.5 * amount)
-        if amount  < -0.1:
+        adj_amount = -1 * math.cos(3.14 * 2 * amount)
+        if amount  < -0.25:
             rotate_amount = (abs(amount) - 0.33)/0.67
-        elif amount > 0.1:
+        elif amount > 0.25:
             rotate_amount  =-1 * (abs(amount) - 0.33)/0.67
         else:
             rotate_amount = 0
@@ -77,7 +77,7 @@ class car:
         elif self.velocity < -self.max_velocity:
             self.velocity = -self.max_velocity
 
-        self.acceleration += ( adj_amount) * 0.5
+        self.acceleration = ( adj_amount) * 5
   
     def render(self):
         return self.space_occupied, self.color
